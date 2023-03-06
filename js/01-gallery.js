@@ -32,9 +32,6 @@ import { galleryItems } from './gallery-items.js';
 
 const galleryEL = document.querySelector('.gallery');
 
-galleryEL.insertAdjacentHTML('beforeend', markup);
-galleryEL.addEventListener('click', onImgClick);
-
 const markup = galleryItems.map(({ preview, original, description }) =>
     `<div class="gallery__item">
         <a class="gallery__link" href="${original}">
@@ -48,27 +45,7 @@ const markup = galleryItems.map(({ preview, original, description }) =>
     </div>`).join("");
 
 galleryEL.insertAdjacentHTML('beforeend', markup);
-
 galleryEL.addEventListener('click', handleSwapImage);
-
-
-// function handleSwapImage(event) {
-//     if (event.target.nodeName !== 'IMG') {
-//         return;
-//     }
-//     const instance = basicLightbox.create(`
-//     <h1>Not closable</h1>
-//     <p>It's not possible to close this lightbox with a click.</p>
-//     <img
-//                 class="gallery__image"
-//                 src="${event.target.nodeName.data-source}"
-//                 alt="${description}"
-//             />
-// `, {
-//     closable: false
-// })
-
-// }
 
 const instance = basicLightbox.create(
   `<img width="1280" height="auto" src="">`,
@@ -82,15 +59,15 @@ const instance = basicLightbox.create(
   }
 );
 
-function onImgClick(e) {
-  e.preventDefault();
-  const datasetSource = e.target.dataset.source;
-  if (!datasetSource) return;
-  instance.element().querySelector('img').src = datasetSource;
+function handleSwapImage(event) {
+  event.preventDefault();
+  const dataSource = event.target.dataset.source;
+  if (!dataSource) return;
+  instance.element().querySelector('img').src = dataSource;
   instance.show();
 }
 
-function onEscKeyPress(e) {
-  if (e.code !== 'Escape') return;
+function onEscKeyPress(event) {
+  if (event.code !== 'Escape') return;
   instance.close();
 }

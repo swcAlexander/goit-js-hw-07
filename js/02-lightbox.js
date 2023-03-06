@@ -18,3 +18,21 @@ console.log(galleryItems);
 // Підключення скрипту і стилів бібліотеки, використовуючи CDN сервіс cdnjs. Необхідно додати посилання на два файли: simple-lightbox.min.js і simple-lightbox.min.css.
 // Ініціалізація бібліотеки після створення і додання елементів галереї у div.gallery. Для цього ознайомся з документацією SimpleLightbox - насамперед секції «Usage» і «Markup».
 // Подивися в документації секцію «Options» і додай відображення підписів до зображень з атрибута alt. Нехай підпис буде знизу і з'являється через 250 мілісекунд після відкриття зображення.
+
+// npm install simplelightbox
+
+const galleryEl = document.querySelector(".gallery");
+
+const markup = galleryItems.map(({ preview, original, description }) =>
+    `<li>
+        <a class="gallery__item" href="${original}">
+            <img class="gallery__image" src="${preview}" alt="${description}" />
+        </a>
+    </li>`).join('');
+
+galleryEl.insertAdjacentHTML('beforeend', markup);
+
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
